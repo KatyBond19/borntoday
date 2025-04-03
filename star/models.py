@@ -69,13 +69,28 @@ class Star(models.Model):
         return self.name
 
     def get_age(self):
-        """Вычисляет возраст звезды на основе даты рождения."""
+        """Возвращает возраст знаменитости"""
         today = date.today()
-        age = today.year - self.birth_date.year
-        # Если день рождения еще не наступил в этом году, вычитаем один год
-        if (today.month, today.day) < (self.birth_date.month, self.birth_date.day):
-            age -= 1
-        return age
+        return today.year - self.birth_date.year - (
+                (today.month, today.day) < (self.birth_date.month, self.birth_date.day)
+        )
+
+    def get_age_with_correct_word(self):
+        """Возвращает возраст с правильным склонением слова 'год'"""
+        age = self.get_age()
+        last_digit = age % 10
+        last_two_digits = age % 100
+
+        if 11 <= last_two_digits <= 14:
+            word = "лет"
+        elif last_digit == 1:
+            word = "год"
+        elif 2 <= last_digit <= 4:
+            word = "года"
+        else:
+            word = "лет"
+
+        return f"{age} {word}"
 
     def save(self, *args, **kwargs):
         if not self.slug:
