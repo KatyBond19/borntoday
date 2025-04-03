@@ -1,9 +1,42 @@
-{% extends 'star/base.html' %}
-{% block title %}{{ title }} - Borntoday.ru{% endblock %}
+{% extends "star/base.html" %}
 
 {% block content %}
-<h3>О сайте</h3>
-<p>
-{{ description }}
-<p>
+<div class="container mt-4">
+    <h1>{{ title }}</h1>
+
+    <!-- Упрощенный блок статистики -->
+    <div class="stats-box mb-4 p-3 bg-light rounded">
+        <h3 class="text-center mb-3">Статистика сайта</h3>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <h4 class="text-primary">{{ stats.stars }}</h4>
+                <p>Знаменитостей</p>
+            </div>
+            <div class="col-md-4">
+                <h4 class="text-success">{{ stats.countries }}</h4>
+                <p>Стран</p>
+            </div>
+            <div class="col-md-4">
+                <h4 class="text-info">{{ stats.categories }}</h4>
+                <p>Категорий</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="about-content">
+        <p>Этот сайт посвящен знаменитостям и их биографиям...</p>
+        <!-- Дополнительный текст о сайте -->
+    </div>
+</div>
+
+<style>
+    .stats-box {
+        border: 1px solid #dee2e6;
+    }
+    .stats-box h4 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+</style>
 {% endblock %}

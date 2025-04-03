@@ -196,3 +196,19 @@ def sitemap_letter(request, letter):
     }
     context.update(get_alphabet_context())
     return render(request, 'star/sitemap_letter.html', context)
+
+
+def about(request):
+    # Получаем статистику
+    stats = {
+        'stars': Star.objects.filter(is_published=True).count(),
+        'countries': Country.objects.count(),
+        'categories': Category.objects.count(),
+    }
+
+    context = {
+        'title': 'О сайте',
+        'stats': stats,
+        # Другие данные контекста, если есть
+    }
+    return render(request, 'star/about.html', context)
