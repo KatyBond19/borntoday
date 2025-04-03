@@ -7,6 +7,20 @@
         <h1 class="display-4 fw-bold text-gradient">Карта сайта</h1>
         <p class="lead text-muted">Полный список всех знаменитостей на нашем сайте</p>
     </div>
+<!-- Алфавитная навигация -->
+    <div class="alphabet-nav mb-4">
+        {% for letter in alphabet %}
+            {% if letter in existing_letters %}
+                <a href="{% url 'sitemap_letter' letter %}" class="btn btn-outline-primary btn-sm">
+                    {{ letter }}
+                </a>
+            {% else %}
+                <span class="btn btn-outline-secondary btn-sm disabled">
+                    {{ letter }}
+                </span>
+            {% endif %}
+        {% endfor %}
+    </div>
 
     <div class="row g-4">
         {% for star in stars %}

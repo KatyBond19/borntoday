@@ -152,19 +152,47 @@ def add_star(request):
     return render(request, 'star/add_star.html', context)
 
 
-def sitemap(request):
-    # Получаем опубликованных знаменитостей и сортируем по имени
-    stars = Star.objects.filter(is_published=True).order_by('name')
 
-    # Получаем страны и категории для бокового меню
-    star_countries = Country.objects.all()
-    star_categories = Category.objects.all()
+RUSSIAN_ALPHABET = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ'
+
+def get_alphabet_context():
+    # Получаем буквы, на которые есть знаменитости
+    existing_letters = []
+    for letter in RUSSIAN_ALPHABET:
+        if Star.objects.filter(is_published=True, name__istartswith=letter).exists():
+            existing_letters.append(letter)
+
+    return {
+        'alphabet': RUSSIAN_ALPHABET,
+        'existing_letters': existing_letters
+    }
+
+
+def sitemap(request):
+    stars = Star.objects.filter(is_published=True).order_by('name')
+    context = {
+        'stars': stars,
+        'star_countries': Country.objects.all(),
+        'star_categories': Category.objects.all(),
+        'title': 'Карта сайта'
+    }
+    context.update(get_alphabet_context())
+    return render(request, 'star/sitemap.html', context)
+
+
+def sitemap_letter(request, letter):
+    letter = letter.upper()  # Приводим к верхнему регистру
+    stars = Star.objects.filter(
+        is_published=True,
+        name__istartswith=letter
+    ).order_by('name')
 
     context = {
         'stars': stars,
-        'star_countries': star_countries,
-        'star_categories': star_categories,
-        'title': 'Карта сайта - Все знаменитости'
+        'current_letter': letter,
+        'star_countries': Country.objects.all(),
+        'star_categories': Category.objects.all(),
+        'title': f'Знаменитости на букву {letter}',
     }
-
-    return render(request, 'star/sitemap.html', context)
+    context.update(get_alphabet_context())
+    return render(request, 'star/sitemap_letter.html', context)

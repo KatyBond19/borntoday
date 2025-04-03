@@ -18,4 +18,6 @@ urlpatterns = [
 
     path('sitemap/', views.sitemap, name='sitemap'),
 
+    path('sitemap/<str:letter>/', views.sitemap_letter, name='sitemap_letter'),
+
 ]

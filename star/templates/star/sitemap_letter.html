@@ -1,0 +1,39 @@
+{% extends "star/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">{{ title }}</h1>
+    
+    <!-- Алфавитная навигация -->
+    <div class="alphabet-nav mb-4">
+        {% for letter in alphabet %}
+            {% if letter in existing_letters %}
+                <a href="{% url 'sitemap_letter' letter %}" 
+                   class="btn btn-sm {% if letter == current_letter %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                    {{ letter }}
+                </a>
+            {% else %}
+                <span class="btn btn-outline-secondary btn-sm disabled">
+                    {{ letter }}
+                </span>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    {% if stars %}
+        <div class="list-group">
+            {% for star in stars %}
+                <a href="{% url 'star_detail' star.slug %}" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ star.name }}</h5>
+                        <small>{{ star.birth_date|date:"Y" }}</small>
+                    </div>
+                    <p class="mb-1">{{ star.country.name }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">Нет знаменитостей на букву {{ current_letter }}</div>
+    {% endif %}
+</div>
+{% endblock %}
