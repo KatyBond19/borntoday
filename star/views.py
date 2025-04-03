@@ -4,6 +4,7 @@ from datetime import date, timedelta
 from .models import Star, Country, Category
 from django.contrib import messages
 from django.shortcuts import redirect
+from .forms import StarForm
 
 def index(request):
     """
@@ -67,7 +68,7 @@ def star_detail(request, slug):
         'star_categories': categories,
     }
 
-    return render(request, 'star/star-detail.html', context)
+    return render(request, 'star/star_detail.html', context)
 
 
 def about(request):
@@ -121,10 +122,6 @@ def stars_by_category(request, slug):
     return render(request, 'star/industry.html', context)
 
 
-from .forms import StarForm
-
-from .forms import StarForm
-
 
 def add_star(request):
     """
@@ -153,3 +150,21 @@ def add_star(request):
         'star_categories': categories,
     }
     return render(request, 'star/add_star.html', context)
+
+
+def sitemap(request):
+    # Получаем опубликованных знаменитостей и сортируем по имени
+    stars = Star.objects.filter(is_published=True).order_by('name')
+
+    # Получаем страны и категории для бокового меню
+    star_countries = Country.objects.all()
+    star_categories = Category.objects.all()
+
+    context = {
+        'stars': stars,
+        'star_countries': star_countries,
+        'star_categories': star_categories,
+        'title': 'Карта сайта - Все знаменитости'
+    }
+
+    return render(request, 'star/sitemap.html', context)

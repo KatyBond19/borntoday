@@ -17,3 +17,4 @@ class StarForm(forms.ModelForm):
            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
            'photo': forms.FileInput(attrs={'class': 'form-control'}),
        }
+

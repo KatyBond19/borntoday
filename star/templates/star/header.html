@@ -18,6 +18,8 @@
           <a class="nav-link" href="{% url 'star_index' %}">Главная</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{% url 'sitemap' %}">Карта сайта</a>
+        <li class="nav-item">
           <a class="nav-link" href="{% url 'about' %}">О сайте</a>
         </li>
         <!-- Ссылка на админку Django -->
@@ -30,7 +32,7 @@
     <!-- Кнопка «Добавить знаменитость» (пример) -->
     <div>
       <a href="/add" class="btn btn-primary">Добавить знаменитость</a>
+      <a href="{% url 'sitemap' %}" class="nav-link">Карта сайта</a>
     </div>
   </div>
 </nav>
-
